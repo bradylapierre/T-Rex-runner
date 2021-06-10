@@ -1,10 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     const dino = document.querySelector('.dino')
     const grid = document.querySelector('.grid')
+    const body = document.querySelector('body')
+    const container = document.querySelector('#container')
     const alert = document.getElementById('alert')
+    const scoreBox = document.getElementById('scoreBox')
     let isJumping = false
     let gravity = 0.9
     let isGameOver = false
+    let score = 0
 
     function control(e) {
         if (e.keyCode === 32) {
@@ -14,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-    document.addEventListener('keyup', control)
+    document.addEventListener('keydown', control)
 
     let position = 0
     function jump() {
@@ -33,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     position -= 5
                     count--
                     position = position * gravity
-                    dino.style.bottom = position = 'px'
+                    dino.style.bottom = position + 'px'
                 }, 20)
 
             }
@@ -42,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             position += 30
             count++
             position = position * gravity
-            dino.style.bottom = position = 'px'
+            dino.style.bottom = position + 'px'
         }, 20)
     }
 
@@ -62,20 +66,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert.innerHTML = 'Game Over'
                 isGameOver = true
                 //remove all children
+                container.removeChild(container.firstChild)
                 while (grid.firstChild) {
                     grid.removeChild(grid.lastChild)
                 }
             }
-
-
             obstaclePosition -= 10
+            
             obstacle.style.left = obstaclePosition + 'px'
-
         }, 20)
-        if (!isGameOver) setTimeout(generateObstacles, randomTime)
+        if (!isGameOver) {
+            setTimeout(generateObstacles, randomTime)
+        } 
     }
+
+    function increaseScore() {
+        // Increase score
+        // Increase score for every jump
+        score++
+        scoreBox.innerHTML = "Score: " + score
+    }
+
     generateObstacles()
-
-
-
 })
